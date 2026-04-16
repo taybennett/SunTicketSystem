@@ -1282,6 +1282,18 @@ const AI_SUMMARY_FIELD = 'fld02YPEU53RykzDi';
 const DEFAULT_ATTORNEY_EMAIL = 'taylorb@popupbagels.com';
 const ANTHROPIC_KEY = window.ANTHROPIC_KEY || '';
 
+// -- Helpers for Airtable writes --
+function genTicketId() {
+  const d = new Date();
+  const yyyymmdd = d.getFullYear().toString()
+    + String(d.getMonth()+1).padStart(2,'0')
+    + String(d.getDate()).padStart(2,'0');
+  const rand = Math.floor(1000 + Math.random()*9000);
+  return 'SH-' + yyyymmdd + '-' + rand;
+}
+function nowIso() { return new Date().toISOString(); }
+
+
 // ── SESSION STATE ──
 let currentUser = null;   // { name, role, recordId, dept }
 let allTickets = [];
@@ -1833,7 +1845,7 @@ async function submitAttyTicket() {
   const title = document.getElementById('f-title').value.trim();
   const submitter = document.getElementById('f-submitter').value.trim();
   if (!title || !submitter) { showToast('Title and submitter name are required.'); return; }
-  const fields = { 'Title': title, 'Submitter Name': submitter, 'Status': 'New', 'Assigned To': currentUser?.name || '' };
+  const fields = { 'Title': title, 'Submitter Name': submitter, 'Status': 'New', 'Assigned To': currentUser?.name || '', 'Submitted At': nowIso(), 'Ticket ID': genTicketId() };
   const submitterEmail = getUserEmail(submitter);
   if (submitterEmail) fields['Submitter Email'] = submitterEmail;
   fields['Attorney Email'] = currentUser?.email || DEFAULT_ATTORNEY_EMAIL;
@@ -1894,7 +1906,7 @@ async function submitEmpTicket() {
   const desc  = document.getElementById('s-description').value.trim();
   if (!title || !desc) { showToast('Title and description are required.'); return; }
   const name = currentUser?.name || '';
-  const fields = { 'Title': title, 'Submitter Name': name, 'Status': 'New', 'Description': desc };
+  const fields = { 'Title': title, 'Submitter Name': name, 'Status': 'New', 'Description': desc, 'Submitted At': nowIso(), 'Ticket ID': genTicketId() };
   if (currentUser?.email) fields['Submitter Email'] = currentUser.email;
   fields['Attorney Email'] = DEFAULT_ATTORNEY_EMAIL;
   if (currentUser?.dept) fields['Department'] = currentUser.dept;
@@ -2043,10 +2055,11 @@ async function sendMessage(view) {
     'Ticket': [currentTicketId],
     'Sender Name': currentUser?.name || (isAtty ? 'Counsel' : 'Employee'),
     'Sender Role': isAtty ? 'Counsel' : 'Employee',
-    'Body': val
+    'Body': val,
+    'Sent At': nowIso()
   };
   if (recipientEmail) msgFields['Recipient Email'] = recipientEmail;
-  const result = await atFetch('POST', TABLES.messages, { fields: msgFields });
+  const result = await atFetch('POST', TABLES.messages, { fields: msgFields, typecast: true });
   input.disabled = false;
   if (result) { input.value = ''; await loadMessages(currentTicketId, view); }
   else showToast('Message failed. Try again.');
@@ -2648,8 +2661,8 @@ async function fetchFranchiseeGroups() {
   const token = window.AIRTABLE_TOKEN || '';
   if (!token) return;
   try {
-    const base  = 'appUInS3SOfPul1jr';
-    const table = 'tblBh34FJtZ8J7Ih8';
+    const base  = BASE_ID;
+    const table = TABLES.franchiseeGroups;
     let records = [], offset = null;
     do {
       const url = 'https://api.airtable.com/v0/' + base + '/' + table
