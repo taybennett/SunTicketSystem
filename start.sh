@@ -1,4 +1,8 @@
 #!/bin/sh
+set -x
+
+echo "=== start.sh: PORT=${PORT} ==="
+
 # Copy static files to writable temp dir
 mkdir -p /tmp/html
 cp /app/index.html /tmp/html/index.html
@@ -9,9 +13,7 @@ window.AIRTABLE_TOKEN = '${AIRTABLE_TOKEN}';
 window.ANTHROPIC_KEY = '${ANTHROPIC_KEY}';
 ENDOFCONFIG
 
-# Build nginx.conf with actual PORT and root pointing to /tmp/html
-sed "s/\$PORT/$PORT/g" /app/nginx.conf \
-  | sed "s|root /app;|root /tmp/html;|g" \
-  > /tmp/nginx.conf
+echo "=== config.js written, starting nginx on port 3000 ==="
 
-nginx -g 'daemon off;' -c /tmp/nginx.conf
+# nginx.conf already has port 3000 and root /tmp/html hardcoded
+exec nginx -g 'daemon off;' -c /app/nginx.conf
