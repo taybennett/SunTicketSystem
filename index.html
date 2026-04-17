@@ -1614,10 +1614,21 @@ function switchAttyView(view) {
     docP.classList.toggle('hidden', !isDocs);
     genP.classList.toggle('hidden', !isGenFA);
     trackP.classList.toggle('hidden', !isTracker);
+    if (gcP) gcP.classList.toggle('hidden', !isGC);
     if (isDashboard) renderDashboard();
     if (isDocs) loadDocLibrary();
     if (isGenFA) fetchFranchiseeGroups();
     if (isTracker) loadTrackerRecords();
+    if (isGC) {
+      const grid = document.getElementById('gc-grid');
+      if (grid) grid.innerHTML = '<div class="state-msg" style="padding:2rem;grid-column:1/-1">Loading tickets...</div>';
+      const needUsers = !allUsers.length;
+      const needTickets = !allTickets.length;
+      Promise.all([
+        needUsers ? loadUsers() : Promise.resolve(),
+        needTickets ? loadTickets() : Promise.resolve()
+      ]).then(function() { renderGCDashboard(); });
+    }
   }
 }
 
