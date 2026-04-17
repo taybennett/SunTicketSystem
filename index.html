@@ -582,6 +582,20 @@ header {
 .loc-count { font-size: 0.68rem; color: var(--mid); letter-spacing: 0.08em; margin-top: 0.2rem; text-transform: uppercase; }
 .loc-refresh-btn { background: none; border: 1px solid var(--border); padding: 0.4rem 0.9rem; font-size: 0.65rem; letter-spacing: 0.08em; cursor: pointer; color: var(--mid); text-transform: uppercase; height: fit-content; }
 .loc-refresh-btn:hover { border-color: var(--black); color: var(--black); }
+.loc-kpi-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin-bottom: 0.9rem; }
+.loc-kpi-card { background: var(--white); border: 1px solid var(--border); padding: 0.75rem 0.85rem; display: flex; flex-direction: column; gap: 0.15rem; border-left: 3px solid var(--border); }
+.loc-kpi-card.c-green  { border-left-color: #3aaa5e; }
+.loc-kpi-card.c-orange { border-left-color: #c0392b; }
+.loc-kpi-card.c-tan    { border-left-color: #e4b800; }
+.loc-kpi-card.c-blue   { border-left-color: #4a6fa5; }
+.loc-kpi-num { font-size: 1.4rem; font-weight: 700; color: var(--black); line-height: 1.05; font-variant-numeric: tabular-nums; }
+.loc-kpi-lbl { font-size: 0.55rem; letter-spacing: 0.12em; color: var(--mid); text-transform: uppercase; font-weight: 600; }
+@media (max-width: 900px) {
+  .loc-kpi-row { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 560px) {
+  .loc-kpi-row { grid-template-columns: repeat(2, 1fr); }
+}
 .loc-status-chips { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
 .loc-chip { background: var(--white); border: 1px solid var(--border); color: var(--mid); padding: 0.35rem 0.85rem; font-size: 0.62rem; letter-spacing: 0.1em; cursor: pointer; text-transform: uppercase; font-weight: 500; }
 .loc-chip.active { background: var(--black); color: var(--white); border-color: var(--black); }
@@ -1114,6 +1128,15 @@ header {
           <div class="loc-count" id="loc-count">—</div>
         </div>
         <button class="loc-refresh-btn" onclick="reloadLocations()">Refresh</button>
+      </div>
+
+      <div class="loc-kpi-row" id="loc-kpi-row">
+        <div class="loc-kpi-card"><div class="loc-kpi-num" id="loc-kpi-total">0</div><div class="loc-kpi-lbl">Total</div></div>
+        <div class="loc-kpi-card c-green"><div class="loc-kpi-num" id="loc-kpi-active">0</div><div class="loc-kpi-lbl">Active</div></div>
+        <div class="loc-kpi-card c-orange"><div class="loc-kpi-num" id="loc-kpi-closed">0</div><div class="loc-kpi-lbl">Closed</div></div>
+        <div class="loc-kpi-card c-tan"><div class="loc-kpi-num" id="loc-kpi-construction">0</div><div class="loc-kpi-lbl">Under Construction</div></div>
+        <div class="loc-kpi-card c-blue"><div class="loc-kpi-num" id="loc-kpi-states">0</div><div class="loc-kpi-lbl">States</div></div>
+        <div class="loc-kpi-card" id="loc-kpi-brands-card"><div class="loc-kpi-num" id="loc-kpi-brands">0</div><div class="loc-kpi-lbl">Brands</div></div>
       </div>
 
       <div class="loc-status-chips">
@@ -3316,19 +3339,43 @@ function renderLocations() {
   if (!grid) return;
   populateLocFilters();
 
-  let items = allLocations.slice();
-  if (locCurrentStatus !== 'all') items = items.filter(function(r){ return (r.fields['Status'] || 'Active') === locCurrentStatus; });
-  if (locCurrentBrand)  items = items.filter(function(r){ return r.fields['Brand'] === locCurrentBrand; });
-  if (locCurrentState)  items = items.filter(function(r){ return r.fields['State'] === locCurrentState; });
-  if (locCurrentEntity) items = items.filter(function(r){ return r.fields['Franchisee Entity'] === locCurrentEntity; });
+  // Apply non-status filters first; KPI row reflects the broader filtered population.
+  let scoped = allLocations.slice();
+  if (locCurrentBrand)  scoped = scoped.filter(function(r){ return r.fields['Brand'] === locCurrentBrand; });
+  if (locCurrentState)  scoped = scoped.filter(function(r){ return r.fields['State'] === locCurrentState; });
+  if (locCurrentEntity) scoped = scoped.filter(function(r){ return r.fields['Franchisee Entity'] === locCurrentEntity; });
   if (locCurrentSearch) {
     const q = locCurrentSearch.toLowerCase();
-    items = items.filter(function(r){
+    scoped = scoped.filter(function(r){
       const f = r.fields;
       return [f['Shop ID'], f['Shop Name'], f['Address'], f['City'], f['General Manager'], f['District Manager'], f['Franchisee Entity']]
         .some(function(v){ return (v || '').toLowerCase().includes(q); });
     });
   }
+
+  // KPI tallies over the broader (non-status) subset
+  const kpi = { total: scoped.length, active: 0, closed: 0, construction: 0, states: new Set(), brands: new Set() };
+  for (let i = 0; i < scoped.length; i++) {
+    const st = scoped[i].fields['Status'] || 'Active';
+    if (st === 'Active')                    kpi.active++;
+    else if (st === 'Closed')               kpi.closed++;
+    else if (st === 'Under Construction')   kpi.construction++;
+    if (scoped[i].fields['State']) kpi.states.add(scoped[i].fields['State']);
+    if (scoped[i].fields['Brand']) kpi.brands.add(scoped[i].fields['Brand']);
+  }
+  const setText = function(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setText('loc-kpi-total',        kpi.total);
+  setText('loc-kpi-active',       kpi.active);
+  setText('loc-kpi-closed',       kpi.closed);
+  setText('loc-kpi-construction', kpi.construction);
+  setText('loc-kpi-states',       kpi.states.size);
+  setText('loc-kpi-brands',       kpi.brands.size);
+  const brandCard = document.getElementById('loc-kpi-brands-card');
+  if (brandCard) brandCard.style.display = locCurrentBrand ? 'none' : '';
+
+  // Narrow to status-filtered items for the card grid
+  let items = scoped;
+  if (locCurrentStatus !== 'all') items = items.filter(function(r){ return (r.fields['Status'] || 'Active') === locCurrentStatus; });
 
   if (countEl) countEl.textContent = items.length + ' of ' + allLocations.length + ' LOCATIONS';
 
