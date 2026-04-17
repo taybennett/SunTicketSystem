@@ -536,6 +536,46 @@ header {
 .genfa-status { font-size: 0.75rem; color: var(--mid); flex: 1; }
 
 /* ── FA TRACKER ── */
+
+/* ── GC DASHBOARD ────────────────────────────────────────────────────────── */
+.gc-panel { flex: 1; overflow-y: auto; padding: 1.5rem 1.75rem 2rem; background: var(--cream); }
+.gc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 1rem; }
+.gc-title { font-size: 1.25rem; font-weight: 700; color: var(--black); letter-spacing: 0.02em; }
+.gc-count { font-size: 0.68rem; color: var(--mid); letter-spacing: 0.08em; margin-top: 0.2rem; text-transform: uppercase; }
+.gc-refresh-btn { background: none; border: 1px solid var(--border); padding: 0.4rem 0.9rem; font-size: 0.65rem; letter-spacing: 0.08em; cursor: pointer; color: var(--mid); text-transform: uppercase; height: fit-content; }
+.gc-refresh-btn:hover { border-color: var(--black); color: var(--black); }
+.gc-status-chips { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+.gc-chip { background: var(--white); border: 1px solid var(--border); color: var(--mid); padding: 0.35rem 0.85rem; font-size: 0.62rem; letter-spacing: 0.1em; cursor: pointer; text-transform: uppercase; font-weight: 500; }
+.gc-chip.active { background: var(--black); color: var(--white); border-color: var(--black); }
+.gc-chip:hover:not(.active) { border-color: var(--black); color: var(--black); }
+.gc-filters { display: grid; grid-template-columns: 1fr 1fr 1fr 2fr; gap: 0.75rem; background: var(--white); border: 1px solid var(--border); padding: 0.85rem 1rem; margin-bottom: 1.25rem; }
+.gc-filter-cell { display: flex; flex-direction: column; gap: 0.3rem; }
+.gc-filter-label { font-size: 0.55rem; letter-spacing: 0.12em; color: var(--mid); text-transform: uppercase; font-weight: 600; }
+.gc-filter-select, .gc-filter-input { width: 100%; padding: 0.45rem 0.55rem; border: 1px solid var(--border); background: var(--white); font-family: inherit; font-size: 0.8rem; color: var(--black); }
+.gc-filter-select:focus, .gc-filter-input:focus { outline: none; border-color: var(--black); }
+.gc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+.gc-card { background: var(--white); border: 1px solid var(--border); padding: 1rem 1.1rem 0.9rem; display: flex; flex-direction: column; gap: 0.55rem; transition: box-shadow 0.15s, transform 0.15s; }
+.gc-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.08); transform: translateY(-1px); }
+.gc-card-top { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+.gc-card-id { font-size: 0.65rem; color: var(--mid); letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase; }
+.gc-card-title { font-size: 0.95rem; font-weight: 600; line-height: 1.3; color: var(--black); cursor: pointer; margin-top: 0.15rem; }
+.gc-card-title:hover { color: var(--red); }
+.gc-card-meta { font-size: 0.7rem; color: var(--mid); display: flex; flex-wrap: wrap; gap: 0.3rem 0.7rem; line-height: 1.5; }
+.gc-card-meta span { white-space: nowrap; }
+.gc-card-delegate { margin-top: auto; padding-top: 0.7rem; border-top: 1px dashed var(--border); display: flex; flex-direction: column; gap: 0.35rem; }
+.gc-card-delegate-row { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
+.gc-card-delegate-label { font-size: 0.55rem; color: var(--mid); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+.gc-card-delegate-name { font-size: 0.82rem; font-weight: 600; color: var(--black); flex-shrink: 0; }
+.gc-card-delegate-name.unassigned { color: var(--red); font-style: italic; font-weight: 500; }
+.gc-delegate-select { padding: 0.35rem 0.45rem; border: 1px solid var(--border); background: var(--white); font-family: inherit; font-size: 0.72rem; cursor: pointer; color: var(--black); min-width: 0; }
+.gc-delegate-select:focus { outline: none; border-color: var(--black); }
+.gc-empty { padding: 3rem; text-align: center; color: var(--mid); font-size: 0.85rem; grid-column: 1 / -1; }
+@media (max-width: 900px) {
+  .gc-filters { grid-template-columns: 1fr 1fr; }
+  .gc-filter-search { grid-column: 1 / -1; }
+  .gc-grid { grid-template-columns: 1fr; }
+}
+
 .tracker-panel { flex: 1; overflow-y: auto; background: var(--cream); display: flex; flex-direction: column; }
 .tracker-header { padding: 1.5rem 2rem 0; flex-shrink: 0; }
 .tracker-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
@@ -632,6 +672,7 @@ header {
         <button class="snav-item" id="snav-docs" onclick="switchAttyView('docs')">DOCS</button>
         <button class="snav-item" id="snav-genfa" onclick="switchAttyView('genfa')">GEN FA</button>
         <button class="snav-item" id="snav-tracker" onclick="switchAttyView('tracker')">TRACKER</button>
+        <button class="snav-item" id="snav-gc" onclick="switchAttyView('gc')" style="display:none">GC DASHBOARD</button>
       </div>
     </div>
 
@@ -688,6 +729,7 @@ header {
     </div><!-- /sview-docs -->
     <div class="sidebar-view hidden" id="sview-genfa"></div>
     <div class="sidebar-view hidden" id="sview-tracker"></div>
+    <div class="sidebar-view hidden" id="sview-gc"></div>
   </aside>
 
   <!-- MAIN -->
@@ -954,6 +996,48 @@ header {
         <div id="tracker-empty-msg" class="tracker-empty hidden">No agreements match this filter.</div>
       </div>
     </div><!-- /tracker-panel -->
+
+    <div class="gc-panel hidden" id="gc-panel">
+      <div class="gc-header">
+        <div>
+          <div class="gc-title">Delegation Dashboard</div>
+          <div class="gc-count" id="gc-count">—</div>
+        </div>
+        <button class="gc-refresh-btn" onclick="reloadGCDashboard()">Refresh</button>
+      </div>
+
+      <div class="gc-status-chips">
+        <button class="gc-chip active" data-s="all" onclick="gcSetStatus('all')">All</button>
+        <button class="gc-chip" data-s="New" onclick="gcSetStatus('New')">New</button>
+        <button class="gc-chip" data-s="In Progress" onclick="gcSetStatus('In Progress')">In Progress</button>
+        <button class="gc-chip" data-s="Urgent" onclick="gcSetStatus('Urgent')">Urgent</button>
+        <button class="gc-chip" data-s="On Hold" onclick="gcSetStatus('On Hold')">On Hold</button>
+        <button class="gc-chip" data-s="Completed" onclick="gcSetStatus('Completed')">Completed</button>
+      </div>
+
+      <div class="gc-filters">
+        <div class="gc-filter-cell">
+          <div class="gc-filter-label">Department</div>
+          <select class="gc-filter-select" id="gc-filter-dept" onchange="gcSetDept(this.value)"></select>
+        </div>
+        <div class="gc-filter-cell">
+          <div class="gc-filter-label">Priority</div>
+          <select class="gc-filter-select" id="gc-filter-priority" onchange="gcSetPriority(this.value)"></select>
+        </div>
+        <div class="gc-filter-cell">
+          <div class="gc-filter-label">Delegated to</div>
+          <select class="gc-filter-select" id="gc-filter-assignee" onchange="gcSetAssignee(this.value)"></select>
+        </div>
+        <div class="gc-filter-cell gc-filter-search">
+          <div class="gc-filter-label">Search</div>
+          <input class="gc-filter-input" id="gc-filter-search" type="text" placeholder="Search ticket ID, title, submitter, assignee…" oninput="gcSetSearch(this.value)">
+        </div>
+      </div>
+
+      <div class="gc-grid" id="gc-grid">
+        <div class="state-msg" style="padding:2rem;grid-column:1/-1">Loading tickets…</div>
+      </div>
+    </div><!-- /gc-panel -->
 
     <div class="welcome" id="welcome">
       <div class="welcome-logo"><img src="data:image/jpeg;base64,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" class="welcome-logo-img" alt="Popup Bagels Legal"></div>
@@ -1410,10 +1494,15 @@ function launchApp() {
   document.getElementById('app-header').classList.remove('hidden');
   document.getElementById('user-pill').textContent = currentUser.name + ' ▾';
 
-  if (currentUser.role === 'Attorney') {
+  const roleStr = String(currentUser.role || '').toLowerCase();
+  const isCounselRole = ['attorney','admin','general counsel'].includes(roleStr);
+  if (isCounselRole) {
     document.getElementById('atty-app').classList.remove('hidden');
     document.getElementById('btn-manage-users').classList.remove('hidden');
     document.getElementById('btn-new-ticket').classList.remove('hidden');
+    // GC Dashboard nav visible only for General Counsel / admin
+    const gcNav = document.getElementById('snav-gc');
+    if (gcNav) gcNav.style.display = (roleStr === 'general counsel' || roleStr === 'admin') ? '' : 'none';
     loadUsers();
     loadTickets();
   } else {
@@ -1482,12 +1571,12 @@ function switchAttyView(view) {
   currentAttyView = view;
   // Close hamburger menu and update label
   document.getElementById('snav-dropdown').classList.add('hidden');
-  const labels = { tickets: 'TICKETS', dashboard: 'DASHBOARD', docs: 'DOCS', genfa: 'GEN FA', tracker: 'TRACKER' };
+  const labels = { tickets: 'TICKETS', dashboard: 'DASHBOARD', docs: 'DOCS', genfa: 'GEN FA', tracker: 'TRACKER', gc: 'GC DASHBOARD' };
   document.getElementById('snav-active-label').textContent = labels[view] || view.toUpperCase();
   // Collapse sidebar when the view has no sidebar content
   const hasSidebarContent = view === 'tickets' || view === 'docs';
   document.querySelector('.sidebar').classList.toggle('sidebar--slim', !hasSidebarContent);
-  ['tickets','dashboard','docs','genfa','tracker'].forEach(v => {
+  ['tickets','dashboard','docs','genfa','tracker','gc'].forEach(v => {
     document.getElementById('snav-' + v).classList.toggle('active', v === view);
     document.getElementById('sview-' + v).classList.toggle('hidden', v !== view);
   });
@@ -1496,17 +1585,20 @@ function switchAttyView(view) {
   const isDocs      = view === 'docs';
   const isGenFA     = view === 'genfa';
   const isTracker   = view === 'tracker';
+  const isGC        = view === 'gc';
   const welcome = document.getElementById('welcome');
   const detail  = document.getElementById('detail');
   const dashP   = document.getElementById('dash-panel');
   const docP    = document.getElementById('doc-lib-main');
   const genP    = document.getElementById('genfa-panel');
   const trackP  = document.getElementById('tracker-panel');
+  const gcP     = document.getElementById('gc-panel');
   if (isTickets) {
     dashP.classList.add('hidden');
     docP.classList.add('hidden');
     genP.classList.add('hidden');
     trackP.classList.add('hidden');
+    if (gcP) gcP.classList.add('hidden');
     if (currentTicketId) {
       welcome.classList.add('hidden');
       detail.classList.remove('hidden');
@@ -2891,6 +2983,147 @@ function renderTrackerTable(records, filter) {
       '</tr>'
     );
   }).join('');
+}
+
+// ── GC DASHBOARD ──────────────────────────────────────────────────────────
+let gcCurrentStatus = 'all';
+let gcCurrentDept = '';
+let gcCurrentPriority = '';
+let gcCurrentAssignee = '';
+let gcCurrentSearch = '';
+
+function isGCRole(role) {
+  const r = String(role || '').toLowerCase();
+  return r === 'general counsel' || r === 'admin';
+}
+
+async function reloadGCDashboard() {
+  await loadTickets();
+  renderGCDashboard();
+}
+
+function populateGCFilters() {
+  const deptSel = document.getElementById('gc-filter-dept');
+  if (deptSel) {
+    const depts = [...new Set(allTickets.map(r => r.fields['Department']).filter(Boolean))].sort();
+    deptSel.innerHTML = '<option value="">All departments</option>' + depts.map(d =>
+      '<option value="' + escHtml(d) + '"' + (d === gcCurrentDept ? ' selected' : '') + '>' + escHtml(d) + '</option>'
+    ).join('');
+  }
+  const priSel = document.getElementById('gc-filter-priority');
+  if (priSel) {
+    const pris = ['Low','Medium','High','Critical'];
+    priSel.innerHTML = '<option value="">All priorities</option>' + pris.map(p =>
+      '<option value="' + escHtml(p) + '"' + (p === gcCurrentPriority ? ' selected' : '') + '>' + escHtml(p) + '</option>'
+    ).join('');
+  }
+  const asSel = document.getElementById('gc-filter-assignee');
+  if (asSel) {
+    const assignees = [...new Set(allTickets.map(r => r.fields['Assigned To']).filter(Boolean))].sort();
+    let html = '<option value="">All assignees</option><option value="__unassigned__"' + (gcCurrentAssignee === '__unassigned__' ? ' selected' : '') + '>Unassigned</option>';
+    html += assignees.map(a =>
+      '<option value="' + escHtml(a) + '"' + (a === gcCurrentAssignee ? ' selected' : '') + '>' + escHtml(a) + '</option>'
+    ).join('');
+    asSel.innerHTML = html;
+  }
+}
+
+function renderGCDashboard() {
+  const grid = document.getElementById('gc-grid');
+  const countEl = document.getElementById('gc-count');
+  if (!grid) return;
+
+  populateGCFilters();
+
+  let items = allTickets.slice();
+  if (gcCurrentStatus !== 'all') items = items.filter(r => (r.fields['Status'] || 'New') === gcCurrentStatus);
+  if (gcCurrentDept)     items = items.filter(r => r.fields['Department'] === gcCurrentDept);
+  if (gcCurrentPriority) items = items.filter(r => r.fields['Priority'] === gcCurrentPriority);
+  if (gcCurrentAssignee === '__unassigned__') items = items.filter(r => !(r.fields['Assigned To'] || '').trim());
+  else if (gcCurrentAssignee) items = items.filter(r => (r.fields['Assigned To'] || '') === gcCurrentAssignee);
+  if (gcCurrentSearch) {
+    const q = gcCurrentSearch.toLowerCase();
+    items = items.filter(r => {
+      const f = r.fields;
+      return [f['Title'], f['Submitter Name'], f['Ticket ID'], f['Assigned To'], f['Department'], f['Category']]
+        .some(v => (v || '').toLowerCase().includes(q));
+    });
+  }
+
+  if (countEl) countEl.textContent = items.length + ' of ' + allTickets.length + ' TICKETS';
+
+  if (!items.length) {
+    grid.innerHTML = '<div class="gc-empty">No tickets match these filters.</div>';
+    return;
+  }
+
+  // Build user options HTML (for delegation dropdowns)
+  const userNames = allUsers.map(u => u.fields && u.fields['Name']).filter(Boolean).sort();
+
+  grid.innerHTML = items.map(r => {
+    const f = r.fields;
+    const s = f['Status'] || 'New';
+    const assignee = (f['Assigned To'] || '').trim();
+    const submitted = f['Submitted At'] ? new Date(f['Submitted At']).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
+    const deadline  = f['Deadline']     ? new Date(f['Deadline']).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
+
+    const options = ['<option value="">— Unassigned —</option>']
+      .concat(userNames.map(n =>
+        '<option value="' + escHtml(n) + '"' + (n === assignee ? ' selected' : '') + '>' + escHtml(n) + '</option>'
+      ))
+      .join('');
+
+    const metaBits = [];
+    if (f['Submitter Name']) metaBits.push('<span>' + escHtml(f['Submitter Name']) + '</span>');
+    if (f['Department'])     metaBits.push('<span>' + escHtml(f['Department']) + '</span>');
+    if (f['Category'])       metaBits.push('<span>' + escHtml(f['Category']) + '</span>');
+    if (f['Priority'])       metaBits.push('<span>' + escHtml(f['Priority']) + ' priority</span>');
+    if (submitted)           metaBits.push('<span>Submitted ' + escHtml(submitted) + '</span>');
+    if (deadline)            metaBits.push('<span>Due ' + escHtml(deadline) + '</span>');
+
+    return '<div class="gc-card">'
+      +   '<div class="gc-card-top">'
+      +     '<span class="gc-card-id">' + escHtml(f['Ticket ID'] || '—') + '</span>'
+      +     '<span class="pill ' + pillClass(s) + '">' + escHtml(s) + '</span>'
+      +   '</div>'
+      +   '<div class="gc-card-title" onclick="gcOpenTicket(\'' + r.id + '\')">' + escHtml(f['Title'] || '(Untitled)') + '</div>'
+      +   '<div class="gc-card-meta">' + metaBits.join('') + '</div>'
+      +   '<div class="gc-card-delegate">'
+      +     '<div class="gc-card-delegate-row">'
+      +       '<span class="gc-card-delegate-label">Delegated to</span>'
+      +       '<span class="gc-card-delegate-name ' + (assignee ? '' : 'unassigned') + '">' + escHtml(assignee || 'Unassigned') + '</span>'
+      +     '</div>'
+      +     '<select class="gc-delegate-select" onchange="delegateTicket(\'' + r.id + '\', this.value)">' + options + '</select>'
+      +   '</div>'
+      + '</div>';
+  }).join('');
+}
+
+function gcOpenTicket(recordId) {
+  switchAttyView('tickets');
+  openTicket(recordId);
+}
+function gcSetStatus(s) {
+  gcCurrentStatus = s;
+  document.querySelectorAll('.gc-chip').forEach(c => c.classList.toggle('active', c.dataset.s === s));
+  renderGCDashboard();
+}
+function gcSetDept(v) { gcCurrentDept = v; renderGCDashboard(); }
+function gcSetPriority(v) { gcCurrentPriority = v; renderGCDashboard(); }
+function gcSetAssignee(v) { gcCurrentAssignee = v; renderGCDashboard(); }
+function gcSetSearch(v) { gcCurrentSearch = v; renderGCDashboard(); }
+
+async function delegateTicket(recordId, name) {
+  const payload = { fields: { 'Assigned To': name || null } };
+  const ok = await atFetch('PATCH', TABLES.tickets + '/' + recordId, payload);
+  if (ok) {
+    const rec = allTickets.find(r => r.id === recordId);
+    if (rec) rec.fields['Assigned To'] = name || '';
+    showToast(name ? 'Delegated to ' + name : 'Ticket unassigned');
+    renderGCDashboard();
+  } else {
+    showToast('Delegation failed. Try again.');
+  }
 }
 
 async function logFAToTracker(fields) {
