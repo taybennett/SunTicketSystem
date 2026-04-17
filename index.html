@@ -575,6 +575,72 @@ header {
   .gc-filter-search { grid-column: 1 / -1; }
   .gc-grid { grid-template-columns: 1fr; }
 }
+/* -- LOCATIONS DASHBOARD ------------------------------------------------- */
+.loc-panel { flex: 1; overflow-y: auto; padding: 1.5rem 1.75rem 2rem; background: var(--cream); }
+.loc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 1rem; }
+.loc-title { font-size: 1.25rem; font-weight: 700; color: var(--black); letter-spacing: 0.02em; }
+.loc-count { font-size: 0.68rem; color: var(--mid); letter-spacing: 0.08em; margin-top: 0.2rem; text-transform: uppercase; }
+.loc-refresh-btn { background: none; border: 1px solid var(--border); padding: 0.4rem 0.9rem; font-size: 0.65rem; letter-spacing: 0.08em; cursor: pointer; color: var(--mid); text-transform: uppercase; height: fit-content; }
+.loc-refresh-btn:hover { border-color: var(--black); color: var(--black); }
+.loc-status-chips { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+.loc-chip { background: var(--white); border: 1px solid var(--border); color: var(--mid); padding: 0.35rem 0.85rem; font-size: 0.62rem; letter-spacing: 0.1em; cursor: pointer; text-transform: uppercase; font-weight: 500; }
+.loc-chip.active { background: var(--black); color: var(--white); border-color: var(--black); }
+.loc-chip:hover:not(.active) { border-color: var(--black); color: var(--black); }
+.loc-filters { display: grid; grid-template-columns: 1fr 1fr 1fr 2fr; gap: 0.75rem; background: var(--white); border: 1px solid var(--border); padding: 0.85rem 1rem; margin-bottom: 1.25rem; }
+.loc-filter-cell { display: flex; flex-direction: column; gap: 0.3rem; }
+.loc-filter-label { font-size: 0.55rem; letter-spacing: 0.12em; color: var(--mid); text-transform: uppercase; font-weight: 600; }
+.loc-filter-select, .loc-filter-input { width: 100%; padding: 0.45rem 0.55rem; border: 1px solid var(--border); background: var(--white); font-family: inherit; font-size: 0.8rem; color: var(--black); }
+.loc-filter-select:focus, .loc-filter-input:focus { outline: none; border-color: var(--black); }
+.loc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; }
+.loc-card { background: var(--white); border: 1px solid var(--border); padding: 1rem 1.1rem 0.9rem; display: flex; flex-direction: column; gap: 0.55rem; transition: box-shadow 0.15s, transform 0.15s; }
+.loc-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.08); transform: translateY(-1px); }
+.loc-brand-badge { display: inline-block; font-size: 0.6rem; letter-spacing: 0.12em; font-weight: 700; text-transform: uppercase; color: var(--red); padding: 0.15rem 0.5rem; border: 1px solid var(--red); align-self: flex-start; }
+.loc-card-top { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+.loc-card-id { font-size: 0.7rem; color: var(--mid); letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase; }
+.loc-card-name { font-size: 0.95rem; font-weight: 600; line-height: 1.3; color: var(--black); }
+.loc-card-addr { font-size: 0.72rem; color: var(--mid); line-height: 1.45; }
+.loc-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 0.75rem; font-size: 0.7rem; padding-top: 0.35rem; border-top: 1px dashed var(--border); }
+.loc-card-grid .k { color: var(--mid); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+.loc-card-grid .v { color: var(--black); font-weight: 500; }
+.loc-card-actions { display: flex; gap: 0.4rem; margin-top: auto; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+.loc-btn { flex: 1; background: var(--white); border: 1px solid var(--black); color: var(--black); padding: 0.5rem 0.5rem; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; cursor: pointer; }
+.loc-btn:hover { background: var(--black); color: var(--white); }
+.loc-btn.disabled { border-color: var(--border); color: var(--mid); cursor: not-allowed; }
+.loc-btn.disabled:hover { background: var(--white); color: var(--mid); }
+.loc-empty { padding: 3rem; text-align: center; color: var(--mid); font-size: 0.85rem; grid-column: 1 / -1; }
+@media (max-width: 900px) {
+  .loc-filters { grid-template-columns: 1fr 1fr; }
+  .loc-filter-search { grid-column: 1 / -1; }
+  .loc-grid { grid-template-columns: 1fr; }
+}
+
+/* -- AGREEMENT MODAL (Lease / FA) ---------------------------------------- */
+.agr-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+.agr-modal-overlay.hidden { display: none; }
+.agr-modal { background: var(--white); max-width: 640px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 1.5rem 1.75rem 1.75rem; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.25); position: relative; }
+.agr-modal-close { position: absolute; top: 0.5rem; right: 0.75rem; background: none; border: none; font-size: 1.6rem; color: var(--mid); cursor: pointer; line-height: 1; padding: 0.25rem 0.5rem; }
+.agr-modal-close:hover { color: var(--black); }
+.agr-modal-kind { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--red); margin-bottom: 0.35rem; }
+.agr-modal-title { font-size: 1.25rem; font-weight: 700; color: var(--black); line-height: 1.3; }
+.agr-modal-sub { font-size: 0.78rem; color: var(--mid); margin-top: 0.25rem; margin-bottom: 1rem; }
+.agr-modal-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem 1.25rem; font-size: 0.82rem; }
+.agr-row { display: flex; flex-direction: column; gap: 0.15rem; }
+.agr-row.full { grid-column: 1 / -1; }
+.agr-row .k { font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); font-weight: 600; }
+.agr-row .v { color: var(--black); font-weight: 500; }
+.agr-row .v.hero { font-size: 1.1rem; font-weight: 700; }
+.agr-row .v.pill { display: inline-block; padding: 0.2rem 0.55rem; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; width: fit-content; border: 1px solid var(--border); }
+.agr-row .v.pill.active { background: #eefaf0; border-color: #3aaa5e; color: #1e6a37; }
+.agr-row .v.pill.expiring { background: #fff7e0; border-color: #e4b800; color: #8a6900; }
+.agr-row .v.pill.expired { background: #fbe8e6; border-color: #c0392b; color: #8a2318; }
+.agr-row .v.pill.holdover { background: #fdece0; border-color: #e07b00; color: #864700; }
+.agr-note { grid-column: 1 / -1; padding: 0.65rem 0.85rem; background: var(--cream); border-left: 3px solid var(--border); font-size: 0.78rem; color: var(--black); }
+.agr-missing { grid-column: 1 / -1; padding: 1.5rem; text-align: center; color: var(--mid); font-size: 0.85rem; border: 1px dashed var(--border); }
+@media (max-width: 640px) {
+  .agr-modal-body { grid-template-columns: 1fr; }
+}
+
+
 
 .tracker-panel { flex: 1; overflow-y: auto; background: var(--cream); display: flex; flex-direction: column; }
 .tracker-header { padding: 1.5rem 2rem 0; flex-shrink: 0; }
@@ -673,6 +739,7 @@ header {
         <button class="snav-item" id="snav-genfa" onclick="switchAttyView('genfa')">GEN FA</button>
         <button class="snav-item" id="snav-tracker" onclick="switchAttyView('tracker')">TRACKER</button>
         <button class="snav-item" id="snav-gc" onclick="switchAttyView('gc')" style="display:none">GC DASHBOARD</button>
+        <button class="snav-item" id="snav-loc" onclick="switchAttyView('loc')" style="display:none">LOCATIONS</button>
       </div>
     </div>
 
@@ -730,6 +797,7 @@ header {
     <div class="sidebar-view hidden" id="sview-genfa"></div>
     <div class="sidebar-view hidden" id="sview-tracker"></div>
     <div class="sidebar-view hidden" id="sview-gc"></div>
+    <div class="sidebar-view hidden" id="sview-loc"></div>
   </aside>
 
   <!-- MAIN -->
@@ -1038,6 +1106,46 @@ header {
         <div class="state-msg" style="padding:2rem;grid-column:1/-1">Loading tickets…</div>
       </div>
     </div><!-- /gc-panel -->
+
+    <div class="loc-panel hidden" id="loc-panel">
+      <div class="loc-header">
+        <div>
+          <div class="loc-title">Active Locations</div>
+          <div class="loc-count" id="loc-count">—</div>
+        </div>
+        <button class="loc-refresh-btn" onclick="reloadLocations()">Refresh</button>
+      </div>
+
+      <div class="loc-status-chips">
+        <button class="loc-chip active" data-s="all" onclick="locSetStatus('all')">All</button>
+        <button class="loc-chip" data-s="Active" onclick="locSetStatus('Active')">Active</button>
+        <button class="loc-chip" data-s="Under Construction" onclick="locSetStatus('Under Construction')">Under Construction</button>
+        <button class="loc-chip" data-s="Closed" onclick="locSetStatus('Closed')">Closed</button>
+      </div>
+
+      <div class="loc-filters">
+        <div class="loc-filter-cell">
+          <div class="loc-filter-label">Brand</div>
+          <select class="loc-filter-select" id="loc-filter-brand" onchange="locSetBrand(this.value)"></select>
+        </div>
+        <div class="loc-filter-cell">
+          <div class="loc-filter-label">State</div>
+          <select class="loc-filter-select" id="loc-filter-state" onchange="locSetState(this.value)"></select>
+        </div>
+        <div class="loc-filter-cell">
+          <div class="loc-filter-label">Franchisee Entity</div>
+          <select class="loc-filter-select" id="loc-filter-entity" onchange="locSetEntity(this.value)"></select>
+        </div>
+        <div class="loc-filter-cell loc-filter-search">
+          <div class="loc-filter-label">Search</div>
+          <input class="loc-filter-input" id="loc-filter-search" type="text" placeholder="Search shop ID, city, GM, DM..." oninput="locSetSearch(this.value)">
+        </div>
+      </div>
+
+      <div class="loc-grid" id="loc-grid">
+        <div class="state-msg" style="padding:2rem;grid-column:1/-1">Loading locations...</div>
+      </div>
+    </div><!-- /loc-panel -->
 
     <div class="welcome" id="welcome">
       <div class="welcome-logo"><img src="data:image/jpeg;base64,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" class="welcome-logo-img" alt="Popup Bagels Legal"></div>
@@ -1359,7 +1467,9 @@ const TABLES = {
   users:            'tblx9U75D40DD2RMX',
   docs:             'tblhCXYIpM9N6FKKn',
   franchiseeGroups: 'tblogexykvrg25jvX',
-  faTracker:        'tblcNSHFdJAHropry'
+  faTracker:        'tblcNSHFdJAHropry',
+  locations:        'tblKPIbGj4x8xpu2i',
+  leases:           'tblgn55zBRTLcrjm6'
 };
 const DOC_FILE_FIELD = 'fldqBhgtdMZXp68Po';
 const AI_SUMMARY_FIELD = 'fld02YPEU53RykzDi';
@@ -1503,6 +1613,8 @@ function launchApp() {
     // GC Dashboard nav visible only for General Counsel / admin
     const gcNav = document.getElementById('snav-gc');
     if (gcNav) gcNav.style.display = (roleStr === 'general counsel' || roleStr === 'admin') ? '' : 'none';
+    const locNav = document.getElementById('snav-loc');
+    if (locNav) locNav.style.display = (roleStr === 'general counsel' || roleStr === 'admin') ? '' : 'none';
     loadUsers();
     loadTickets();
   } else {
@@ -1571,12 +1683,12 @@ function switchAttyView(view) {
   currentAttyView = view;
   // Close hamburger menu and update label
   document.getElementById('snav-dropdown').classList.add('hidden');
-  const labels = { tickets: 'TICKETS', dashboard: 'DASHBOARD', docs: 'DOCS', genfa: 'GEN FA', tracker: 'TRACKER', gc: 'GC DASHBOARD' };
+  const labels = { tickets: 'TICKETS', dashboard: 'DASHBOARD', docs: 'DOCS', genfa: 'GEN FA', tracker: 'TRACKER', gc: 'GC DASHBOARD', loc: 'LOCATIONS' };
   document.getElementById('snav-active-label').textContent = labels[view] || view.toUpperCase();
   // Collapse sidebar when the view has no sidebar content
   const hasSidebarContent = view === 'tickets' || view === 'docs';
   document.querySelector('.sidebar').classList.toggle('sidebar--slim', !hasSidebarContent);
-  ['tickets','dashboard','docs','genfa','tracker','gc'].forEach(v => {
+  ['tickets','dashboard','docs','genfa','tracker','gc','loc'].forEach(v => {
     document.getElementById('snav-' + v).classList.toggle('active', v === view);
     document.getElementById('sview-' + v).classList.toggle('hidden', v !== view);
   });
@@ -1586,6 +1698,7 @@ function switchAttyView(view) {
   const isGenFA     = view === 'genfa';
   const isTracker   = view === 'tracker';
   const isGC        = view === 'gc';
+  const isLoc       = view === 'loc';
   const welcome = document.getElementById('welcome');
   const detail  = document.getElementById('detail');
   const dashP   = document.getElementById('dash-panel');
@@ -1593,12 +1706,14 @@ function switchAttyView(view) {
   const genP    = document.getElementById('genfa-panel');
   const trackP  = document.getElementById('tracker-panel');
   const gcP     = document.getElementById('gc-panel');
+  const locP    = document.getElementById('loc-panel');
   if (isTickets) {
     dashP.classList.add('hidden');
     docP.classList.add('hidden');
     genP.classList.add('hidden');
     trackP.classList.add('hidden');
     if (gcP) gcP.classList.add('hidden');
+    if (locP) locP.classList.add('hidden');
     if (currentTicketId) {
       welcome.classList.add('hidden');
       detail.classList.remove('hidden');
@@ -1615,6 +1730,7 @@ function switchAttyView(view) {
     genP.classList.toggle('hidden', !isGenFA);
     trackP.classList.toggle('hidden', !isTracker);
     if (gcP) gcP.classList.toggle('hidden', !isGC);
+    if (locP) locP.classList.toggle('hidden', !isLoc);
     if (isDashboard) renderDashboard();
     if (isDocs) loadDocLibrary();
     if (isGenFA) fetchFranchiseeGroups();
@@ -1628,6 +1744,11 @@ function switchAttyView(view) {
         needUsers ? loadUsers() : Promise.resolve(),
         needTickets ? loadTickets() : Promise.resolve()
       ]).then(function() { renderGCDashboard(); });
+    }
+    if (isLoc) {
+      const lgrid = document.getElementById('loc-grid');
+      if (lgrid) lgrid.innerHTML = '<div class="state-msg" style="padding:2rem;grid-column:1/-1">Loading locations...</div>';
+      loadLocationsData().then(function() { renderLocations(); });
     }
   }
 }
@@ -3137,6 +3258,235 @@ async function delegateTicket(recordId, name) {
   }
 }
 
+// -- LOCATIONS DASHBOARD ------------------------------------------------
+let allLocations = [];
+let allLeases    = [];
+let allFAs       = [];
+let locCurrentStatus = 'all';
+let locCurrentBrand  = '';
+let locCurrentState  = '';
+let locCurrentEntity = '';
+let locCurrentSearch = '';
+
+async function reloadLocations() {
+  const grid = document.getElementById('loc-grid');
+  if (grid) grid.innerHTML = '<div class="state-msg" style="padding:2rem;grid-column:1/-1">Loading locations...</div>';
+  await loadLocationsData();
+  renderLocations();
+}
+
+async function loadLocationsData() {
+  const [locRes, leaseRes, faRes] = await Promise.all([
+    atFetch('GET', TABLES.locations + '?pageSize=100'),
+    atFetch('GET', TABLES.leases    + '?pageSize=100'),
+    atFetch('GET', TABLES.faTracker + '?pageSize=100')
+  ]);
+  allLocations = (locRes   && locRes.records)   || [];
+  allLeases    = (leaseRes && leaseRes.records) || [];
+  allFAs       = (faRes    && faRes.records)    || [];
+}
+
+function populateLocFilters() {
+  const brandSel = document.getElementById('loc-filter-brand');
+  if (brandSel) {
+    const brands = Array.from(new Set(allLocations.map(function(r){ return r.fields['Brand']; }).filter(Boolean))).sort();
+    brandSel.innerHTML = '<option value="">All brands</option>' + brands.map(function(b){
+      return '<option value="' + escHtml(b) + '"' + (b === locCurrentBrand ? ' selected' : '') + '>' + escHtml(b) + '</option>';
+    }).join('');
+  }
+  const stateSel = document.getElementById('loc-filter-state');
+  if (stateSel) {
+    const states = Array.from(new Set(allLocations.map(function(r){ return r.fields['State']; }).filter(Boolean))).sort();
+    stateSel.innerHTML = '<option value="">All states</option>' + states.map(function(st){
+      return '<option value="' + escHtml(st) + '"' + (st === locCurrentState ? ' selected' : '') + '>' + escHtml(st) + '</option>';
+    }).join('');
+  }
+  const entSel = document.getElementById('loc-filter-entity');
+  if (entSel) {
+    const ents = Array.from(new Set(allLocations.map(function(r){ return r.fields['Franchisee Entity']; }).filter(Boolean))).sort();
+    entSel.innerHTML = '<option value="">All entities</option>' + ents.map(function(e){
+      return '<option value="' + escHtml(e) + '"' + (e === locCurrentEntity ? ' selected' : '') + '>' + escHtml(e) + '</option>';
+    }).join('');
+  }
+}
+
+function renderLocations() {
+  const grid = document.getElementById('loc-grid');
+  const countEl = document.getElementById('loc-count');
+  if (!grid) return;
+  populateLocFilters();
+
+  let items = allLocations.slice();
+  if (locCurrentStatus !== 'all') items = items.filter(function(r){ return (r.fields['Status'] || 'Active') === locCurrentStatus; });
+  if (locCurrentBrand)  items = items.filter(function(r){ return r.fields['Brand'] === locCurrentBrand; });
+  if (locCurrentState)  items = items.filter(function(r){ return r.fields['State'] === locCurrentState; });
+  if (locCurrentEntity) items = items.filter(function(r){ return r.fields['Franchisee Entity'] === locCurrentEntity; });
+  if (locCurrentSearch) {
+    const q = locCurrentSearch.toLowerCase();
+    items = items.filter(function(r){
+      const f = r.fields;
+      return [f['Shop ID'], f['Shop Name'], f['Address'], f['City'], f['General Manager'], f['District Manager'], f['Franchisee Entity']]
+        .some(function(v){ return (v || '').toLowerCase().includes(q); });
+    });
+  }
+
+  if (countEl) countEl.textContent = items.length + ' of ' + allLocations.length + ' LOCATIONS';
+
+  if (!items.length) {
+    grid.innerHTML = '<div class="loc-empty">No locations match these filters.</div>';
+    return;
+  }
+
+  grid.innerHTML = items.map(function(loc) {
+    const f = loc.fields;
+    const lease = allLeases.find(function(l){ return (l.fields['Location'] || []).indexOf(loc.id) !== -1; });
+    const fa    = allFAs.find(function(a){ return (a.fields['Location']    || []).indexOf(loc.id) !== -1; });
+    const st    = f['Status'] || 'Active';
+    const statusPill = '<span class="pill ' + locStatusPillClass(st) + '">' + escHtml(st) + '</span>';
+    const hasLease = lease ? '' : ' disabled';
+    const hasFA    = fa    ? '' : ' disabled';
+    return '<div class="loc-card">'
+      +   '<div class="loc-brand-badge">' + escHtml(f['Brand'] || 'Brand') + '</div>'
+      +   '<div class="loc-card-top">'
+      +     '<span class="loc-card-id">' + escHtml(f['Shop ID'] || '-') + '</span>'
+      +     statusPill
+      +   '</div>'
+      +   '<div class="loc-card-name">' + escHtml(f['Shop Name'] || '-') + '</div>'
+      +   '<div class="loc-card-addr">'
+      +     escHtml(f['Address'] || '') + '<br>'
+      +     escHtml([f['City'], f['State']].filter(Boolean).join(', ')) + ' ' + escHtml(f['Zip'] || '')
+      +   '</div>'
+      +   '<div class="loc-card-grid">'
+      +     '<div><div class="k">Franchisee</div><div class="v">' + escHtml(f['Franchisee Entity'] || '-') + '</div></div>'
+      +     '<div><div class="k">Phone</div><div class="v">'       + escHtml(f['Phone']             || '-') + '</div></div>'
+      +     '<div><div class="k">GM</div><div class="v">'          + escHtml(f['General Manager']   || '-') + '</div></div>'
+      +     '<div><div class="k">DM</div><div class="v">'          + escHtml(f['District Manager']  || '-') + '</div></div>'
+      +   '</div>'
+      +   '<div class="loc-card-actions">'
+      +     '<button class="loc-btn' + hasLease + '" ' + (lease ? 'onclick="openLeaseModal(' + JSON.stringify(lease.id) + ',' + JSON.stringify(loc.id) + ')"' : 'disabled') + '>View Lease</button>'
+      +     '<button class="loc-btn' + hasFA    + '" ' + (fa    ? 'onclick="openFAModal('    + JSON.stringify(fa.id)    + ',' + JSON.stringify(loc.id) + ')"' : 'disabled') + '>View FA</button>'
+      +   '</div>'
+      + '</div>';
+  }).join('');
+}
+
+function locStatusPillClass(s) {
+  if (s === 'Active') return 'pill-done';
+  if (s === 'Under Construction') return 'pill-prog';
+  if (s === 'Closed') return 'pill-new';
+  return 'pill-new';
+}
+function locSetStatus(v) {
+  locCurrentStatus = v;
+  document.querySelectorAll('.loc-chip').forEach(function(c){ c.classList.toggle('active', c.dataset.s === v); });
+  renderLocations();
+}
+function locSetBrand(v)  { locCurrentBrand  = v; renderLocations(); }
+function locSetState(v)  { locCurrentState  = v; renderLocations(); }
+function locSetEntity(v) { locCurrentEntity = v; renderLocations(); }
+function locSetSearch(v) { locCurrentSearch = v; renderLocations(); }
+
+// -- AGREEMENT MODAL (Lease / FA) --
+function computeTermLeft(expDate) {
+  if (!expDate) return '-';
+  const exp = new Date(expDate);
+  const today = new Date();
+  const diffDays = Math.round((exp - today) / 86400000);
+  if (diffDays < 0) return 'Expired (' + Math.abs(diffDays) + ' days ago)';
+  if (diffDays < 60) return diffDays + ' days';
+  if (diffDays < 365) {
+    const months = Math.round(diffDays / 30);
+    return months + ' month' + (months !== 1 ? 's' : '');
+  }
+  const years = Math.floor(diffDays / 365);
+  const remDays = diffDays - years * 365;
+  const monthsLeft = Math.floor(remDays / 30);
+  if (monthsLeft === 0) return years + ' year' + (years !== 1 ? 's' : '');
+  return years + 'y ' + monthsLeft + 'm';
+}
+function fmtCurrency(n) {
+  if (n === null || n === undefined || n === '') return '-';
+  return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+function fmtPercent(n) {
+  if (n === null || n === undefined || n === '') return '-';
+  return (Number(n) * 100).toFixed(2).replace(/\.00$/, '') + '%';
+}
+function fmtDate(s) {
+  if (!s) return '-';
+  return new Date(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+function agrStatusPill(s) {
+  const k = String(s || '').toLowerCase();
+  if (k === 'active')                  return '<span class="v pill active">Active</span>';
+  if (k === 'expiring soon')           return '<span class="v pill expiring">Expiring Soon</span>';
+  if (k === 'expired')                 return '<span class="v pill expired">Expired</span>';
+  if (k === 'on holdover')             return '<span class="v pill holdover">On Holdover</span>';
+  return '<span class="v pill">' + escHtml(s || '-') + '</span>';
+}
+
+function openLeaseModal(leaseId, locationId) {
+  const lease = allLeases.find(function(l){ return l.id === leaseId; });
+  const loc   = allLocations.find(function(l){ return l.id === locationId; });
+  if (!lease) return;
+  const f = lease.fields;
+  document.getElementById('agr-modal-kind').textContent  = 'LEASE';
+  document.getElementById('agr-modal-title').textContent = f['Lease ID'] || 'Lease';
+  document.getElementById('agr-modal-sub').textContent   = loc ? ((loc.fields['Shop Name'] || '') + ' - ' + [loc.fields['City'], loc.fields['State']].filter(Boolean).join(', ')) : '';
+  const rows = [
+    ['Landlord',         escHtml(f['Landlord']         || '-')],
+    ['Landlord Contact', escHtml(f['Landlord Contact'] || '-')],
+    ['Execution Date',   escHtml(fmtDate(f['Execution Date']))],
+    ['Commencement',     escHtml(fmtDate(f['Commencement Date']))],
+    ['Expiration Date',  escHtml(fmtDate(f['Expiration Date']))],
+    ['Term Years',       escHtml(f['Term Years'] != null ? (f['Term Years'] + ' yrs') : '-')],
+    ['Term Left',        '<strong>' + escHtml(computeTermLeft(f['Expiration Date'])) + '</strong>'],
+    ['Status',           agrStatusPill(f['Status'])],
+    ['Monthly Rent',     escHtml(fmtCurrency(f['Monthly Rent']))],
+    ['Annual Rent',      escHtml(fmtCurrency(f['Annual Rent']))],
+    ['Rent Escalator',   escHtml(fmtPercent(f['Rent Escalator'])) + '/yr'],
+    ['Security Deposit', escHtml(fmtCurrency(f['Security Deposit']))],
+    ['Renewal Options',  escHtml(f['Renewal Options']  || '-')]
+  ];
+  let html = rows.map(function(r){ return '<div class="agr-row"><div class="k">' + r[0] + '</div><div class="v">' + r[1] + '</div></div>'; }).join('');
+  if (f['Notes']) html += '<div class="agr-note"><strong>Notes:</strong> ' + escHtml(f['Notes']) + '</div>';
+  document.getElementById('agr-modal-body').innerHTML = html;
+  document.getElementById('agr-modal-overlay').classList.remove('hidden');
+}
+
+function openFAModal(faId, locationId) {
+  const fa = allFAs.find(function(a){ return a.id === faId; });
+  const loc = allLocations.find(function(l){ return l.id === locationId; });
+  if (!fa) return;
+  const f = fa.fields;
+  document.getElementById('agr-modal-kind').textContent  = 'FRANCHISE AGREEMENT';
+  document.getElementById('agr-modal-title').textContent = f['Agreement Name'] || 'Franchise Agreement';
+  document.getElementById('agr-modal-sub').textContent   = loc ? ((loc.fields['Shop Name'] || '') + ' - ' + [loc.fields['City'], loc.fields['State']].filter(Boolean).join(', ')) : '';
+  const rows = [
+    ['Brand',            escHtml(f['Brand']             || '-')],
+    ['Franchisee Entity',escHtml(f['Franchisee Entity'] || '-')],
+    ['DRA Group',        escHtml(f['DRA Group']         || '-')],
+    ['Execution Date',   escHtml(fmtDate(f['Execution Date']))],
+    ['Expiration Date',  escHtml(fmtDate(f['Expiration Date']))],
+    ['Term Years',       escHtml(f['Term Years'] != null ? (f['Term Years'] + ' yrs') : '-')],
+    ['Term Left',        '<strong>' + escHtml(computeTermLeft(f['Expiration Date'])) + '</strong>'],
+    ['Status',           agrStatusPill(f['Status'])],
+    ['Royalty Rate',     escHtml(fmtPercent(f['Royalty Rate']))],
+    ['Ad Fund Rate',     escHtml(fmtPercent(f['Ad Fund Rate']))],
+    ['Signatory',        escHtml(f['Signatory Name']    || '-')],
+    ['Shop Number',      escHtml(f['Shop Number']       || '-')]
+  ];
+  let html = rows.map(function(r){ return '<div class="agr-row"><div class="k">' + r[0] + '</div><div class="v">' + r[1] + '</div></div>'; }).join('');
+  if (f['Notes']) html += '<div class="agr-note"><strong>Notes:</strong> ' + escHtml(f['Notes']) + '</div>';
+  document.getElementById('agr-modal-body').innerHTML = html;
+  document.getElementById('agr-modal-overlay').classList.remove('hidden');
+}
+
+function closeAgrModal() {
+  document.getElementById('agr-modal-overlay').classList.add('hidden');
+}
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeAgrModal(); });
+
 async function logFAToTracker(fields) {
   try {
     await atFetch('POST', TABLES.faTracker, { records: [{ fields: fields }] });
@@ -3381,5 +3731,15 @@ async function generateFA(e) {
   }
 }
 </script>
+<!-- Agreement modal (Lease / FA) -->
+<div class="agr-modal-overlay hidden" id="agr-modal-overlay" onclick="if(event.target===this) closeAgrModal()">
+  <div class="agr-modal">
+    <button class="agr-modal-close" onclick="closeAgrModal()" aria-label="Close">&times;</button>
+    <div class="agr-modal-kind" id="agr-modal-kind">AGREEMENT</div>
+    <div class="agr-modal-title" id="agr-modal-title">Details</div>
+    <div class="agr-modal-sub" id="agr-modal-sub"></div>
+    <div class="agr-modal-body" id="agr-modal-body"></div>
+  </div>
+</div>
 </body>
 </html>
