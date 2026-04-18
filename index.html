@@ -3298,15 +3298,28 @@ async function reloadLocations() {
   renderLocations();
 }
 
+async function fetchAllPaged(tableId) {
+  const records = [];
+  let offset = null;
+  do {
+    const path = tableId + '?pageSize=100' + (offset ? ('&offset=' + encodeURIComponent(offset)) : '');
+    const data = await atFetch('GET', path);
+    if (!data) break;
+    if (data.records && data.records.length) records.push.apply(records, data.records);
+    offset = data.offset || null;
+  } while (offset);
+  return records;
+}
+
 async function loadLocationsData() {
-  const [locRes, leaseRes, faRes] = await Promise.all([
-    atFetch('GET', TABLES.locations + '?pageSize=100'),
-    atFetch('GET', TABLES.leases    + '?pageSize=100'),
-    atFetch('GET', TABLES.faTracker + '?pageSize=100')
+  const [locs, leases, fas] = await Promise.all([
+    fetchAllPaged(TABLES.locations),
+    fetchAllPaged(TABLES.leases),
+    fetchAllPaged(TABLES.faTracker)
   ]);
-  allLocations = (locRes   && locRes.records)   || [];
-  allLeases    = (leaseRes && leaseRes.records) || [];
-  allFAs       = (faRes    && faRes.records)    || [];
+  allLocations = locs   || [];
+  allLeases    = leases || [];
+  allFAs       = fas    || [];
 }
 
 function populateLocFilters() {
